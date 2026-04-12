@@ -375,8 +375,9 @@ export default function App() {
       formData.append("Area Covered", intakeData.area || "");
       formData.append("Services", intakeData.services.join(", "));
       formData.append("Biggest Problem", intakeData.problem || "");
-      intakeFiles.logo.forEach(f => formData.append("Logo/Brand Files", f));
-      intakeFiles.work.forEach(f => formData.append("Work Photos", f));
+      formData.append("Logo/Brand Files Uploaded", intakeFiles.logo.length > 0 ? intakeFiles.logo.map(f => f.name).join(", ") : "None");
+      formData.append("Work Photos Uploaded", intakeFiles.work.length > 0 ? intakeFiles.work.map(f => f.name).join(", ") : "None");
+      formData.append("Note", intakeFiles.logo.length + intakeFiles.work.length > 0 ? "Client uploaded files - follow up to get them via email/WhatsApp" : "");
       const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
       const data = await res.json();
       if (data.success) { setIntakeSubmitted(true); }
